@@ -37,6 +37,6 @@ public class Bootstrap implements CommandLineRunner {
         this.categoryRepository.save(exotic);
         this.categoryRepository.save(nuts);
 
-        System.out.println("Data loadad " + this.categoryRepository.count());
+        System.out.println("Data loaded " + this.categoryRepository.count());
     }
 }
