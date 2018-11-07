@@ -49,11 +49,13 @@ public class CustomerControllerTest {
         c1.setId(ID);
         c1.setFirstName(FIRST_NAME);
         c1.setLastName(LAST_NAME);
+        c1.setCustomerUrl("/api/v1/customers/"+ID);
         customerList.add(c1);
         CustomerDTO c2 = new CustomerDTO();
         c2.setId(2L);
         c2.setFirstName("First");
         c2.setLastName("Last");
+        c1.setCustomerUrl("/api/v1/customers/2");
         customerList.add(c2);
         when(this.service.getAllCustomers()).thenReturn(customerList);
         //when
@@ -71,6 +73,7 @@ public class CustomerControllerTest {
         c1.setId(ID);
         c1.setFirstName(FIRST_NAME);
         c1.setLastName(LAST_NAME);
+        c1.setCustomerUrl("/api/v1/customers/"+ID);
         when(this.service.getCustomerById(any())).thenReturn(c1);
 
         mockMvc.perform(get("/api/v1/customers/"+ID)
