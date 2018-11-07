@@ -58,6 +58,7 @@ public class Bootstrap implements CommandLineRunner {
         Customer second = new Customer();
         second.setFirstName("Michael");
         second.setLastName("Woods");
-
+        this.customerRepository.save(first);
+        this.customerRepository.save(second);
     }
 }
