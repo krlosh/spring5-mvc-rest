@@ -81,7 +81,7 @@ public class CustomerServiceTest {
         assertEquals(Long.valueOf(ID), newDto.getId());
         assertEquals(FIRST_NAME,newDto.getFirstName());
         assertEquals(LAST_NAME,newDto.getLastName());
-        assertEquals("/api/v1/customer/1",newDto.getCustomerUrl());
+        assertEquals("/api/v1/customers/1",newDto.getCustomerUrl());
 
 
     }
