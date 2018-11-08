@@ -35,13 +35,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
-        Optional<Customer> customerOptional = this.repository.findById(id);
-        if (!customerOptional.isPresent()) {
-            throw new IllegalArgumentException("Customer "+id+"not found");
-        }
-        CustomerDTO dto = mapper.customerToCustomerDTO(customerOptional.get());
-        dto.setCustomerUrl(getCustomerUrl(id));
-        return dto;
+
+        return this.repository.findById(id)
+                            .map(mapper::customerToCustomerDTO)
+                            .map(dto -> {
+                                dto.setCustomerUrl(getCustomerUrl(id));
+                                return dto;
+                            }).orElseThrow(ResourceNotFoundException::new);
     }
 
     public String getCustomerUrl(Long id) {
@@ -81,7 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerDTO dto = this.mapper.customerToCustomerDTO(repository.save(customerToPatch));
             dto.setCustomerUrl(getCustomerUrl(id));
             return dto;
-       }).orElseThrow(RuntimeException::new);
+       }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
