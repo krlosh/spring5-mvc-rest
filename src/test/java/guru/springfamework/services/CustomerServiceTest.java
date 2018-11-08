@@ -104,4 +104,5 @@ public class CustomerServiceTest {
         assertEquals(dto.getFirstName(), updatedDto.getFirstName());
         assertEquals("/api/v1/customers/1", updatedDto.getCustomerUrl());
     }
+
 }
