@@ -2,6 +2,7 @@ package guru.springfamework.services;
 
 import guru.springfamework.api.v1.mapper.CustomerMapper;
 import guru.springfamework.api.v1.model.CustomerDTO;
+import guru.springfamework.controllers.v1.CustomerController;
 import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
                     .stream()
                     .map(customer-> {
                         CustomerDTO dto = mapper.customerToCustomerDTO(customer);
-                        dto.setCustomerUrl("/api/v1/customers/"+customer.getId());
+                        dto.setCustomerUrl(getCustomerUrl(customer.getId()));
                         return dto;
                         }).collect(Collectors.toList());
     }
@@ -39,8 +40,12 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalArgumentException("Customer "+id+"not found");
         }
         CustomerDTO dto = mapper.customerToCustomerDTO(customerOptional.get());
-        dto.setCustomerUrl("/api/v1/customers/"+id);
+        dto.setCustomerUrl(getCustomerUrl(id));
         return dto;
+    }
+
+    public String getCustomerUrl(Long id) {
+        return CustomerController.CUSTOMERS_BASE_URL +"/" + id;
     }
 
     @Override
@@ -53,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO saveAndReturn(Customer customerToSave) {
         Customer savedCustomer = this.repository.save(customerToSave);
         CustomerDTO createdDto = this.mapper.customerToCustomerDTO(savedCustomer);
-        createdDto.setCustomerUrl("/api/v1/customers/"+savedCustomer.getId());
+        createdDto.setCustomerUrl(getCustomerUrl(savedCustomer.getId()));
         return createdDto;
     }
 
@@ -74,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
                 customerToPatch.setLastName(customerDTO.getLastName());
             }
             CustomerDTO dto = this.mapper.customerToCustomerDTO(repository.save(customerToPatch));
-            dto.setCustomerUrl("/api/v1/customers/"+id);
+            dto.setCustomerUrl(getCustomerUrl(id));
             return dto;
        }).orElseThrow(RuntimeException::new);
     }
