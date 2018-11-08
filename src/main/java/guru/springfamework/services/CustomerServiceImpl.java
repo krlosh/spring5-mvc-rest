@@ -38,7 +38,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (!customerOptional.isPresent()) {
             throw new IllegalArgumentException("Customer "+id+"not found");
         }
-        return mapper.customerToCustomerDTO(customerOptional.get());
+        CustomerDTO dto = mapper.customerToCustomerDTO(customerOptional.get());
+        dto.setCustomerUrl("/api/v1/customers/"+id);
+        return dto;
     }
 
     @Override
@@ -71,7 +73,9 @@ public class CustomerServiceImpl implements CustomerService {
             if(customerDTO.getLastName()!=null){
                 customerToPatch.setLastName(customerDTO.getLastName());
             }
-           return this.mapper.customerToCustomerDTO(repository.save(customerToPatch));
-        }).orElseThrow(RuntimeException::new);
+            CustomerDTO dto = this.mapper.customerToCustomerDTO(repository.save(customerToPatch));
+            dto.setCustomerUrl("/api/v1/customers/"+id);
+            return dto;
+       }).orElseThrow(RuntimeException::new);
     }
 }

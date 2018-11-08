@@ -19,9 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -125,6 +123,30 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
 
         //when/then
         mockMvc.perform(put("/api/v1/customers/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(dto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName",equalTo("Fred")))
+                .andExpect(jsonPath("$.lastName",equalTo("Flinstones")))
+                .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
+
+    }
+
+    @Test
+    public void testPatchCustomer() throws Exception {
+        //given
+        CustomerDTO dto = new CustomerDTO();
+        dto.setFirstName("Fred");
+        dto.setLastName("Flinstones");
+
+        CustomerDTO savedDto = new CustomerDTO();
+        savedDto.setFirstName(dto.getFirstName());
+        savedDto.setLastName(dto.getLastName());
+        savedDto.setCustomerUrl("/api/v1/customers/1");
+        when(this.service.patchCustomer(any(), any(CustomerDTO.class))).thenReturn(savedDto);
+
+        //when/then
+        mockMvc.perform(patch("/api/v1/customers/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
                 .andExpect(status().isOk())
