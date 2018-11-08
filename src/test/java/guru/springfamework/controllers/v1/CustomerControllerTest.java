@@ -158,4 +158,13 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
                 .andExpect(jsonPath("$.customer_url",equalTo("/api/v1/customers/1")));
 
     }
+
+    @Test
+    public void testDeleteCustomer() throws Exception {
+
+        mockMvc.perform(delete("/api/v1/customers/1"))
+                .andExpect(status().isOk());
+
+        verify(this.service, times(1)).deleteCustomerById(anyLong());
+    }
 }
