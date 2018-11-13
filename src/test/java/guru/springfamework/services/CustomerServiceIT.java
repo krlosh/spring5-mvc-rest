@@ -6,6 +6,7 @@ import guru.springfamework.bootstrap.Bootstrap;
 import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CategoryRepository;
 import guru.springfamework.repositories.CustomerRepository;
+import guru.springfamework.repositories.VendorRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,12 +29,15 @@ public class CustomerServiceIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     @Before
     public void setUp() throws Exception {
         System.out.println("Loading data ...");
-        Bootstrap bootstrap = new Bootstrap(this.categoryRepository, this.customerRepository);
+        Bootstrap bootstrap = new Bootstrap(this.categoryRepository, this.customerRepository, vendorRepository);
         bootstrap.run();
 
         this.customerService =  new CustomerServiceImpl(CustomerMapper.INSTANCE, this.customerRepository);
