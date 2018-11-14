@@ -5,4 +5,4 @@ This repository is for an example application built in my Spring Framework 5 - B
 
 You can learn about my Spring Framework 5 Online course [here.](http://courses.springframework.guru/p/spring-framework-5-begginer-to-guru/?product_id=363173)
 
-We are using https://api.predic8.de/shop/docs as a reference to implement a REST API
+We are using https://api.predic8.de/shop/docs as a reference to implement a REST APIn0

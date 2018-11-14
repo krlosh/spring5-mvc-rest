@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,7 +50,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
     @Test
     public void testGetAllVendors() throws Exception {
         //given
-        when(this.service.getAllVendors()).thenReturn(Arrays.asList(new VendorDTO(), new VendorDTO()));
+        given(this.service.getAllVendors()).willReturn(Arrays.asList(new VendorDTO(), new VendorDTO()));
         //when/then
         mockMvc.perform(get(VendorController.VENDORS_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -64,7 +65,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         dto.setId(ID);
         dto.setName(VENDOR_NAME);
         dto.setVendorUrl(VendorController.VENDORS_BASE_URL+"/"+dto.getId());
-        when(this.service.getVendorById(anyLong())).thenReturn(dto);
+        given(this.service.getVendorById(anyLong())).willReturn(dto);
 
         //when/then
         mockMvc.perform(get(VendorController.VENDORS_BASE_URL+"/"+ID)
@@ -83,7 +84,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         savedDto.setId(ID);
         savedDto.setName(dto.getName());
         savedDto.setVendorUrl(VendorController.VENDORS_BASE_URL +"/"+savedDto.getId());
-        when(this.service.createNewVendor(any(VendorDTO.class))).thenReturn(savedDto);
+        given(this.service.createNewVendor(any(VendorDTO.class))).willReturn(savedDto);
 
         //when/then
         mockMvc.perform(post(VendorController.VENDORS_BASE_URL)
@@ -99,7 +100,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         VendorDTO dto = new VendorDTO();
         dto.setId(ID);
         dto.setName(VENDOR_NAME);
-        when(this.service.saveVendorByDto(anyLong(), any(VendorDTO.class))).thenAnswer(i -> i.getArguments()[1]);
+        given(this.service.saveVendorByDto(anyLong(), any(VendorDTO.class))).willAnswer(i -> i.getArguments()[1]);
         mockMvc.perform(put(VendorController.VENDORS_BASE_URL+"/"+ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
@@ -113,7 +114,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         VendorDTO dto = new VendorDTO();
         dto.setId(ID);
         dto.setName("Updated");
-        when(this.service.patchVendor(anyLong(),any(VendorDTO.class))).thenAnswer(i -> i.getArguments()[1]);
+        given(this.service.patchVendor(anyLong(),any(VendorDTO.class))).willAnswer(i -> i.getArguments()[1]);
         //when/then
         mockMvc.perform(patch(VendorController.VENDORS_BASE_URL+"/"+ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -134,7 +135,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
     @Test
     public void testNotFoundVendor() throws Exception {
         //given
-        when(this.service.getVendorById(anyLong())).thenThrow(ResourceNotFoundException.class);
+        given(this.service.getVendorById(anyLong())).willThrow(ResourceNotFoundException.class);
 
         //when/then
         mockMvc.perform(get(VendorController.VENDORS_BASE_URL+"/"+ID)
