@@ -20,9 +20,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -129,7 +127,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         mockMvc.perform(delete(VendorController.VENDORS_BASE_URL+"/"+ID)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
-        verify(this.service, times(1)).deleteVendorById(anyLong());
+        then(this.service).should().deleteVendorById(anyLong());
     }
 
     @Test
