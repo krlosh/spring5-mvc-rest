@@ -69,6 +69,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
         //when
 
         mockMvc.perform(get(CustomerController.CUSTOMERS_BASE_URL+"/")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
@@ -85,6 +86,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
         when(this.service.getCustomerById(any())).thenReturn(c1);
 
         mockMvc.perform(get(CustomerController.CUSTOMERS_BASE_URL+"/"+ID)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
@@ -106,8 +108,9 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
 
         //when/then
         mockMvc.perform(post(CustomerController.CUSTOMERS_BASE_URL+"")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(dto)))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName",equalTo("Fred")))
                 .andExpect(jsonPath("$.lastName",equalTo("Flinstones")))
@@ -130,6 +133,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
 
         //when/then
         mockMvc.perform(put(CustomerController.CUSTOMERS_BASE_URL+"/1")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
                 .andExpect(status().isOk())
@@ -154,6 +158,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest{
 
         //when/then
         mockMvc.perform(patch(CustomerController.CUSTOMERS_BASE_URL+"/1")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
                 .andExpect(status().isOk())

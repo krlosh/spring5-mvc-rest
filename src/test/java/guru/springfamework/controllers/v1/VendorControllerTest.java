@@ -51,6 +51,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         given(this.service.getAllVendors()).willReturn(Arrays.asList(new VendorDTO(), new VendorDTO()));
         //when/then
         mockMvc.perform(get(VendorController.VENDORS_BASE_URL)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.vendors", hasSize(2)));
@@ -67,6 +68,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
 
         //when/then
         mockMvc.perform(get(VendorController.VENDORS_BASE_URL+"/"+ID)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name",equalTo(VENDOR_NAME)))
@@ -86,6 +88,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
 
         //when/then
         mockMvc.perform(post(VendorController.VENDORS_BASE_URL)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
                 .andExpect(status().isCreated())
@@ -100,6 +103,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         dto.setName(VENDOR_NAME);
         given(this.service.saveVendorByDto(anyLong(), any(VendorDTO.class))).willAnswer(i -> i.getArguments()[1]);
         mockMvc.perform(put(VendorController.VENDORS_BASE_URL+"/"+ID)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
                 .andExpect(status().isOk())
@@ -115,6 +119,7 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         given(this.service.patchVendor(anyLong(),any(VendorDTO.class))).willAnswer(i -> i.getArguments()[1]);
         //when/then
         mockMvc.perform(patch(VendorController.VENDORS_BASE_URL+"/"+ID)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)))
                 .andExpect(status().isOk())
