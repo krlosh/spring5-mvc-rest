@@ -1,8 +1,8 @@
 package guru.springframework.services;
 
 import guru.springframework.api.v1.mapper.CustomerMapper;
-import guru.springframework.api.v1.model.CustomerDTO;
 import guru.springframework.domain.Customer;
+import guru.springframework.model.CustomerDTO;
 import guru.springframework.repositories.CustomerRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +59,6 @@ public class CustomerServiceTest {
 
         //when
         CustomerDTO dto = this.service.getCustomerById(ID);
-        assertEquals(Long.valueOf(ID), dto.getId());
         assertEquals(FIRST_NAME, dto.getFirstName());
         assertEquals(LAST_NAME, dto.getLastName());
     }
@@ -81,7 +80,6 @@ public class CustomerServiceTest {
         CustomerDTO newDto = this.service.createNewCustomer(dto);
 
         //then
-        assertEquals(Long.valueOf(ID), newDto.getId());
         assertEquals(FIRST_NAME,newDto.getFirstName());
         assertEquals(LAST_NAME,newDto.getLastName());
         assertEquals("/api/v1/customers/1",newDto.getCustomerUrl());

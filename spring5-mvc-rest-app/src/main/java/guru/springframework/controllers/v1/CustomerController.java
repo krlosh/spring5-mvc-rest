@@ -1,7 +1,7 @@
 package guru.springframework.controllers.v1;
 
-import guru.springframework.api.v1.model.CustomerDTO;
-import guru.springframework.api.v1.model.CustomerDTOList;
+import guru.springframework.model.CustomerDTO;
+import guru.springframework.model.CustomerDTOList;
 import guru.springframework.services.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,9 @@ public class CustomerController {
     @ApiOperation(value = "This will get a list of customers.", notes = "These are some notes about the API.")
     @GetMapping
     public ResponseEntity<CustomerDTOList> getAllCustomers(){
-        return new ResponseEntity<>(new CustomerDTOList(this.service.getAllCustomers()), HttpStatus.OK);
+        CustomerDTOList list = new CustomerDTOList();
+        list.getCustomers().addAll(this.service.getAllCustomers());
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
